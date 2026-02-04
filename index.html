@@ -1268,8 +1268,8 @@
             }
         });
 
-        // --- HASH BASED PROMO REDIRECTION (FILE SAFE) ---
-        window.addEventListener('DOMContentLoaded', () => {
+        // --- PROMO HASH HANDLER ---
+        function handlePromoHash() {
             const hash = window.location.hash.toLowerCase();
 
             const promoMap = {
@@ -1278,25 +1278,34 @@
                 '#promopayday': 'payday'
             };
 
-            if (promoMap[hash]) {
-                const targetTab = promoMap[hash];
+            const targetTab = promoMap[hash];
+            if (!targetTab) return;
 
-                setTimeout(() => {
-                    // Scroll to promo section
-                    document.getElementById('promos').scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+            // Small delay for smoother UX / GSAP safety
+            setTimeout(() => {
+                // Scroll to promo section
+                document.getElementById('promos')?.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
 
-                    // Activate correct tab
-                    const tabButton = document.querySelector(
-                        `.tab-btn[onclick*="${targetTab}"]`
-                    );
+                // Activate tab
+                const tabButton = document.querySelector(
+                    `.tab-btn[onclick*="${targetTab}"]`
+                );
 
-                    if (tabButton) tabButton.click();
-                }, 500);
-            }
-        });
+                if (tabButton && !tabButton.classList.contains('active')) {
+                    tabButton.click();
+                }
+            }, 300);
+        }
+
+        // Run on first load
+        window.addEventListener('DOMContentLoaded', handlePromoHash);
+
+        // Run every time hash changes (manual edit, back/forward, JS)
+        window.addEventListener('hashchange', handlePromoHash);
+
     </script>
 </body>
 
