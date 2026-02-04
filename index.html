@@ -523,6 +523,13 @@
             color: var(--dark);
         }
 
+        #modalTnc,
+        #modalTnc ul {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+        }
+
         .tnc-list li {
             position: relative;
             padding-left: 20px;
@@ -765,8 +772,26 @@
     <!-- Tab: Daily Win (5 Cards) -->
     <div id="daily" class="tab-pane active">
         <!-- Promo 1 -->
-        <div class="promo-card"
-            onclick="showModal('Digital Monday', 'Cashback up to 50% for all digital payments.', 'https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/UK_guide_526dffffc5.svg', ['Minimal transaksi Rp 100.000', 'Berlaku setiap hari Senin', 'Khusus pembayaran via QRIS/Debit Online'])">
+        <div class="promo-card" onclick="showModal('Digital Monday', 'Cashback up to 50% for all digital payments.', 'https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/UK_guide_526dffffc5.svg', [
+  { type: 'text', content: 'Syarat & Ketentuan:' },
+
+  {
+    type: 'list',
+    content: 'Minimal transaksi Rp 100.000',
+    children: [
+      'Berlaku kelipatan',
+      'Tidak termasuk biaya admin'
+    ]
+  },
+
+  {
+    type: 'list',
+    content: 'Khusus QRIS / Debit Online'
+  },
+
+  { type: 'text', content: '*Promo dapat berubah sewaktu-waktu' }
+]
+)">
             <div class="promo-image-container">
                 <span class="promo-badge">Monday</span>
                 <img src="https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/UK_guide_526dffffc5.svg"
@@ -1169,17 +1194,57 @@
 
             const tncList = document.getElementById('modalTnc');
             tncList.innerHTML = '';
-            tnc.forEach(point => {
-                const li = document.createElement('li');
-                li.textContent = point;
-                tncList.appendChild(li);
+
+            tnc.forEach(item => {
+                // BACKWARD COMPAT (STRING)
+                if (typeof item === 'string') {
+                    const li = document.createElement('li');
+                    li.textContent = item;
+                    tncList.appendChild(li);
+                    return;
+                }
+
+                // TEXT / PARAGRAPH
+                if (item.type === 'text') {
+                    const p = document.createElement('p');
+                    p.className = 'modal-text';
+                    p.textContent = item.content;
+                    tncList.appendChild(p);
+                }
+
+                // LIST
+                if (item.type === 'list') {
+                    const li = document.createElement('li');
+                    li.textContent = item.content;
+
+                    // SUB LIST
+                    if (item.children && item.children.length) {
+                        const subUl = document.createElement('ul');
+                        subUl.className = 'modal-sublist';
+
+                        item.children.forEach(child => {
+                            const subLi = document.createElement('li');
+                            subLi.textContent = child;
+                            subUl.appendChild(subLi);
+                        });
+
+                        li.appendChild(subUl);
+                    }
+
+                    tncList.appendChild(li);
+                }
             });
 
             overlay.style.display = 'flex';
 
             // GSAP Modal Entrance
             gsap.to(overlay, { opacity: 1, duration: 0.3 });
-            gsap.to(container, { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(1.7)" });
+            gsap.to(container, {
+                scale: 1,
+                opacity: 1,
+                duration: 0.5,
+                ease: "back.out(1.7)"
+            });
         }
 
         function closeModal() {
