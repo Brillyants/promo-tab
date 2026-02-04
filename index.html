@@ -147,8 +147,7 @@
 
         .hero-bg {
             position: absolute;
-            top: 0;
-            left: 0;
+            inset: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -159,11 +158,10 @@
 
         .hero-overlay {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to right, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.2) 100%);
+            inset: 0;
+            background: linear-gradient(to right,
+                    rgba(0, 0, 0, 0.9) 0%,
+                    rgba(0, 0, 0, 0.25) 100%);
         }
 
         .hero-content {
@@ -171,6 +169,7 @@
             z-index: 2;
             padding: 0 8%;
             max-width: 1200px;
+            width: 100%;
         }
 
         .hero-tag {
@@ -182,8 +181,6 @@
             font-size: 0.9rem;
             font-weight: 700;
             margin-bottom: 24px;
-            opacity: 0;
-            transform: translateY(20px);
         }
 
         .hero h1 {
@@ -191,38 +188,68 @@
             line-height: 1.1;
             font-weight: 800;
             color: white;
-            margin-bottom: 24px;
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        .hero p {
-            font-size: 1.25rem;
-            color: rgba(255, 255, 255, 0.8);
             margin-bottom: 40px;
-            max-width: 600px;
-            opacity: 0;
-            transform: translateY(30px);
         }
 
+        /* --- Promo Grid --- */
+        .hero-promo-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            max-width: 900px;
+        }
+
+        /* --- Promo Card --- */
+        .hero-promo-card {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .hero-promo-card img {
+            width: 100%;
+            object-fit: cover;
+            border-radius: 18px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            transition: transform 0.4s ease;
+        }
+
+        .hero-promo-card:hover img {
+            transform: scale(1.05);
+        }
+
+        /* --- Button --- */
         .btn-primary {
-            display: inline-block;
-            padding: 9px 20px;
+            align-self: flex-start;
+            padding: 10px 24px;
             background: var(--primary);
             color: white;
             text-decoration: none;
             border-radius: 12px;
             font-weight: 700;
-            transition: var(--transition);
+            transition: 0.3s ease;
             box-shadow: 0 10px 20px rgba(255, 107, 107, 0.3);
-            opacity: 0;
-            transform: translateY(30px);
         }
 
         .btn-primary:hover {
             background: var(--primary-dark);
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(255, 107, 107, 0.4);
+            transform: translateY(-4px);
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            .hero {
+                height: auto;
+                padding: 120px 0 80px;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero-promo-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         /* --- Section Header --- */
@@ -338,7 +365,6 @@
 
         .promo-image-container {
             width: 100%;
-            height: 180px;
             /* Slightly shorter for 5 col layout */
             overflow: hidden;
             position: relative;
@@ -395,6 +421,12 @@
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
+        }
+
+        .promo-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
         }
 
         /* --- Modal --- */
@@ -674,19 +706,46 @@
         <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=2000"
             alt="Fintech" class="hero-bg">
         <div class="hero-overlay"></div>
+
         <div class="hero-content">
             <span class="hero-tag">#NyalaCuanEveryday</span>
-            <h1>Dari awal minggu hingga akhir pekan, <span style="color: var(--primary);">selalu cuan.</span></h1>
-            <p>Dapatkan pengalaman finansial tanpa batas dengan promo eksklusif Nyala Global Debit. Makan, belanja, dan
-                jalan-jalan jadi makin hemat.</p>
-            <a href="#promos" class="btn-primary">Lihat Promo Hari Ini</a>
+
+            <h1>
+                Dari awal minggu sampai akhir pekan, promo Nyala Global Debit
+                <span style="color: var(--primary);">selalu bikin cuan.</span>
+            </h1>
+
+            <!-- TWO COLUMN PROMO -->
+            <div class="hero-promo-grid">
+                <!-- Left Promo -->
+                <div class="hero-promo-card">
+                    <img src="https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/nyala_5bb25c225e.png"
+                        alt="Promo Travel">
+                    <a href="#travel" class="btn-primary">Buka Nyala</a>
+                </div>
+
+                <!-- Center Promo -->
+                <div class="hero-promo-card">
+                    <img src="https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/90n_187803c4e9.png"
+                        alt="Promo Lifestyle">
+                    <a href="#lifestyle" class="btn-primary">Apply Kartu Kredit</a>
+                </div>
+
+                <!-- Right Promo -->
+                <div class="hero-promo-card">
+                    <img src="https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/90n_187803c4e9.png"
+                        alt="Promo Lifestyle">
+                    <a href="#lifestyle" class="btn-primary">Premier</a>
+                </div>
+            </div>
         </div>
     </section>
 
     <section class="section-intro" id="promos">
-        <h2 class="reveal">Pilih <span class="highlight">Gaya Hidupmu</span></h2>
-        <p class="reveal">Kami menghadirkan promo yang dikurasi khusus untuk memenuhi setiap kebutuhan harianmu, dari
-            pagi hingga malam.</p>
+        <h2 class="reveal">Nikmati Promo <span class="highlight">Nyala Global Debit</span></h2>
+        <p class="reveal">Setiap hari selalu ada promo berbeda untuk penuhi kebutuhan kamu - mulai dari bayar tagihan,
+            <em>hobby</em> olahraga, beli kopi dan jajan, sampai <em>grocery shopping</em>
+        </p>
     </section>
 
     <div class="tab-wrapper reveal">
@@ -707,10 +766,10 @@
     <div id="daily" class="tab-pane active">
         <!-- Promo 1 -->
         <div class="promo-card"
-            onclick="showModal('Digital Monday', 'Cashback up to 50% for all digital payments.', 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=800', ['Minimal transaksi Rp 100.000', 'Berlaku setiap hari Senin', 'Khusus pembayaran via QRIS/Debit Online'])">
+            onclick="showModal('Digital Monday', 'Cashback up to 50% for all digital payments.', 'https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/UK_guide_526dffffc5.svg', ['Minimal transaksi Rp 100.000', 'Berlaku setiap hari Senin', 'Khusus pembayaran via QRIS/Debit Online'])">
             <div class="promo-image-container">
                 <span class="promo-badge">Monday</span>
-                <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=800"
+                <img src="https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/UK_guide_526dffffc5.svg"
                     class="promo-img" alt="Digital">
             </div>
             <div class="promo-body">
@@ -726,10 +785,10 @@
         </div>
         <!-- Promo 2 -->
         <div class="promo-card"
-            onclick="showModal('Wellness Tuesday', '30% Discount for your healthy lifestyle.', 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=800', ['Berlaku di Gym & Spa terpilih', 'Minimal transaksi Rp 200.000', 'Wajib menggunakan Nyala Global Debit'])">
+            onclick="showModal('Wellness Tuesday', '30% Discount for your healthy lifestyle.', 'https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/CH_e3b5fc2745.svg', ['Berlaku di Gym & Spa terpilih', 'Minimal transaksi Rp 200.000', 'Wajib menggunakan Nyala Global Debit'])">
             <div class="promo-image-container">
                 <span class="promo-badge">Tuesday</span>
-                <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=800"
+                <img src="https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/CH_e3b5fc2745.svg"
                     class="promo-img" alt="Wellness">
             </div>
             <div class="promo-body">
@@ -745,10 +804,10 @@
         </div>
         <!-- Promo 3 -->
         <div class="promo-card"
-            onclick="showModal('Treats Wednesday', 'Buy 1 Get 1 for your favorite snacks.', 'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&q=80&w=800', ['Hanya berlaku di merchant partner', 'Varian rasa tertentu', 'Selama persediaan masih ada'])">
+            onclick="showModal('Treats Wednesday', 'Buy 1 Get 1 for your favorite snacks.', 'https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/UK_guide_526dffffc5.svg', ['Hanya berlaku di merchant partner', 'Varian rasa tertentu', 'Selama persediaan masih ada'])">
             <div class="promo-image-container">
                 <span class="promo-badge">Wednesday</span>
-                <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&q=80&w=800"
+                <img src="https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/UK_guide_526dffffc5.svg"
                     class="promo-img" alt="Treats">
             </div>
             <div class="promo-body">
@@ -764,10 +823,10 @@
         </div>
         <!-- Promo 4 -->
         <div class="promo-card"
-            onclick="showModal('Coffee Thursday', '50% Off your second cup of coffee.', 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&q=80&w=800', ['Minimal pembelian 1 menu coffee', 'Berlaku pukul 14.00 - 17.00', 'Hanya di coffee shop partner'])">
+            onclick="showModal('Coffee Thursday', '50% Off your second cup of coffee.', 'https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/AUS_fuide_b779e915d3.svg', ['Minimal pembelian 1 menu coffee', 'Berlaku pukul 14.00 - 17.00', 'Hanya di coffee shop partner'])">
             <div class="promo-image-container">
                 <span class="promo-badge">Thursday</span>
-                <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&q=80&w=800"
+                <img src="https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/AUS_fuide_b779e915d3.svg"
                     class="promo-img" alt="Coffee">
             </div>
             <div class="promo-body">
@@ -783,10 +842,10 @@
         </div>
         <!-- Promo 5 -->
         <div class="promo-card"
-            onclick="showModal('Happy Weekend', 'Bigger rewards for your weekend vibes.', 'https://images.unsplash.com/photo-1501196354995-cbb51c65aaea?auto=format&fit=crop&q=80&w=800', ['Minimal belanja Rp 500.000', 'Berlaku Sabtu & Minggu', 'Tersedia di Supermarket pilihan'])">
+            onclick="showModal('Happy Weekend', 'Bigger rewards for your weekend vibes.', 'https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/JAP_guide_71f5f01ba8.svg', ['Minimal belanja Rp 500.000', 'Berlaku Sabtu & Minggu', 'Tersedia di Supermarket pilihan'])">
             <div class="promo-image-container">
                 <span class="promo-badge">Fri-Sun</span>
-                <img src="https://images.unsplash.com/photo-1501196354995-cbb51c65aaea?auto=format&fit=crop&q=80&w=800"
+                <img src="https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/JAP_guide_71f5f01ba8.svg"
                     class="promo-img" alt="Weekend">
             </div>
             <div class="promo-body">
@@ -804,46 +863,184 @@
 
     <!-- Tab: Everyday Win -->
     <div id="everyday" class="tab-pane">
-        <div class="promo-card"
-            onclick="showModal('Travel Unlimited', 'Special rates for domestic & international flights.', 'https://images.unsplash.com/photo-1436491865332-7a61a109c055?auto=format&fit=crop&q=80&w=800', ['Booking via apps partner', 'Diskon hingga Rp 500.000', 'Tanpa minimum transaksi'])">
-            <div class="promo-image-container">
-                <span class="promo-badge">Anytime</span>
-                <img src="https://images.unsplash.com/photo-1436491865332-7a61a109c055?auto=format&fit=crop&q=80&w=800"
-                    class="promo-img" alt="Travel">
-            </div>
-            <div class="promo-body">
-                <div>
-                    <h3>Travel Unlimited</h3>
-                    <p>Keliling dunia lebih hemat dengan diskon tiket pesawat setiap hari.</p>
+        <a href="https://web.ocbc.id/shell" class="promo-link">
+            <div class="promo-card">
+                <div class="promo-image-container">
+                    <span class="promo-badge">Everyday</span>
+                    <img src="https://seosecret.id/placeholder/1080x1080/d5d5d5/584959" class="promo-img" alt="Travel">
                 </div>
-                <div class="promo-footer">
-                    <span>Lihat Detail</span>
-                    <i>→</i>
+
+                <div class="promo-body">
+                    <div>
+                        <h3>Shell</h3>
+                        <p>Please provide copy for this content.</p>
+                    </div>
+                    <div class="promo-footer">
+                        <span>Lihat Detail</span>
+                        <i>→</i>
+                    </div>
                 </div>
             </div>
-        </div>
+        </a>
+        <a href="https://web.ocbc.id/tokopedia" class="promo-link">
+            <div class="promo-card">
+                <div class="promo-image-container">
+                    <span class="promo-badge">Everyday</span>
+                    <img src="https://seosecret.id/placeholder/1080x1080/d5d5d5/584959" class="promo-img" alt="Travel">
+                </div>
+
+                <div class="promo-body">
+                    <div>
+                        <h3>Tokopedia</h3>
+                        <p>Please provide copy for this content.</p>
+                    </div>
+                    <div class="promo-footer">
+                        <span>Lihat Detail</span>
+                        <i>→</i>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <a href="https://web.ocbc.id/shopee" class="promo-link">
+            <div class="promo-card">
+                <div class="promo-image-container">
+                    <span class="promo-badge">Everyday</span>
+                    <img src="https://seosecret.id/placeholder/1080x1080/d5d5d5/584959" class="promo-img" alt="Travel">
+                </div>
+
+                <div class="promo-body">
+                    <div>
+                        <h3>Shopee</h3>
+                        <p>Please provide copy for this content.</p>
+                    </div>
+                    <div class="promo-footer">
+                        <span>Lihat Detail</span>
+                        <i>→</i>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <a href="https://web.ocbc.id/ohsome" class="promo-link">
+            <div class="promo-card">
+                <div class="promo-image-container">
+                    <span class="promo-badge">Everyday</span>
+                    <img src="https://seosecret.id/placeholder/1080x1080/d5d5d5/584959" class="promo-img" alt="Travel">
+                </div>
+
+                <div class="promo-body">
+                    <div>
+                        <h3>Oh! Some</h3>
+                        <p>Please provide copy for this content.</p>
+                    </div>
+                    <div class="promo-footer">
+                        <span>Lihat Detail</span>
+                        <i>→</i>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <a href="https://web.ocbc.id/astro" class="promo-link">
+            <div class="promo-card">
+                <div class="promo-image-container">
+                    <span class="promo-badge">Everyday</span>
+                    <img src="https://seosecret.id/placeholder/1080x1080/d5d5d5/584959" class="promo-img" alt="Travel">
+                </div>
+
+                <div class="promo-body">
+                    <div>
+                        <h3>Astro</h3>
+                        <p>Please provide copy for this content.</p>
+                    </div>
+                    <div class="promo-footer">
+                        <span>Lihat Detail</span>
+                        <i>→</i>
+                    </div>
+                </div>
+            </div>
+        </a>
     </div>
 
     <!-- Tab: Payday Win -->
     <div id="payday" class="tab-pane">
-        <div class="promo-card"
-            onclick="showModal('Payday Flash Sale', 'Extra Cashback up to 90% for your wishlist.', 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&q=80&w=800', ['Berlaku tanggal 25-30 setiap bulan', 'Max cashback Rp 50.000', 'Minimal belanja Rp 500.000'])">
-            <div class="promo-image-container">
-                <span class="promo-badge">Payday</span>
-                <img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&q=80&w=800"
-                    class="promo-img" alt="Payday">
-            </div>
-            <div class="promo-body">
-                <div>
-                    <h3>Payday Flash Sale</h3>
-                    <p>Gajian makin berasa dengan cashback ekstra untuk semua belanjaan.</p>
+        <a href="https://web.ocbc.id/grab" class="promo-link">
+            <div class="promo-card">
+                <div class="promo-image-container">
+                    <span class="promo-badge">Payday</span>
+                    <img src="https://seosecret.id/placeholder/1080x1080/d5d5d5/584959" class="promo-img" alt="Travel">
                 </div>
-                <div class="promo-footer">
-                    <span>Lihat Detail</span>
-                    <i>→</i>
+
+                <div class="promo-body">
+                    <div>
+                        <h3>Grab Dine Out</h3>
+                        <p>Please provide copy for this content.</p>
+                    </div>
+                    <div class="promo-footer">
+                        <span>Lihat Detail</span>
+                        <i>→</i>
+                    </div>
                 </div>
             </div>
-        </div>
+        </a>
+
+        <a href="https://web.ocbc.id/minimarket" class="promo-link">
+            <div class="promo-card">
+                <div class="promo-image-container">
+                    <span class="promo-badge">Payday</span>
+                    <img src="https://seosecret.id/placeholder/1080x1080/d5d5d5/584959" class="promo-img" alt="Travel">
+                </div>
+
+                <div class="promo-body">
+                    <div>
+                        <h3>Minimarket</h3>
+                        <p>Please provide copy for this content.</p>
+                    </div>
+                    <div class="promo-footer">
+                        <span>Lihat Detail</span>
+                        <i>→</i>
+                    </div>
+                </div>
+            </div>
+        </a>
+
+        <a href="https://web.ocbc.id/shopee" class="promo-link">
+            <div class="promo-card">
+                <div class="promo-image-container">
+                    <span class="promo-badge">Payday</span>
+                    <img src="https://seosecret.id/placeholder/1080x1080/d5d5d5/584959" class="promo-img" alt="Travel">
+                </div>
+
+                <div class="promo-body">
+                    <div>
+                        <h3>Shopee</h3>
+                        <p>Please provide copy for this content.</p>
+                    </div>
+                    <div class="promo-footer">
+                        <span>Lihat Detail</span>
+                        <i>→</i>
+                    </div>
+                </div>
+            </div>
+        </a>
+
+        <a href="https://web.ocbc.id/tokopedia" class="promo-link">
+            <div class="promo-card">
+                <div class="promo-image-container">
+                    <span class="promo-badge">Payday</span>
+                    <img src="https://seosecret.id/placeholder/1080x1080/d5d5d5/584959" class="promo-img" alt="Travel">
+                </div>
+
+                <div class="promo-body">
+                    <div>
+                        <h3>Tokopedia</h3>
+                        <p>Please provide copy for this content.</p>
+                    </div>
+                    <div class="promo-footer">
+                        <span>Lihat Detail</span>
+                        <i>→</i>
+                    </div>
+                </div>
+            </div>
+        </a>
     </div>
 
     <!-- Modal Element -->
