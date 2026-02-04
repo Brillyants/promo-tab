@@ -1159,6 +1159,8 @@
 
         // --- Tabbing Logic ---
         function switchTab(event, category) {
+            history.replaceState(null, '', `#promo${category}`);
+
             // Remove active classes
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.tab-pane').forEach(pane => {
@@ -1268,8 +1270,7 @@
             }
         });
 
-        // --- PROMO HASH HANDLER ---
-        function handlePromoHash() {
+        function handlePromoHash(force = false) {
             const hash = window.location.hash.toLowerCase();
 
             const promoMap = {
@@ -1281,31 +1282,30 @@
             const targetTab = promoMap[hash];
             if (!targetTab) return;
 
-            // Small delay for smoother UX / GSAP safety
+            const tabButton = document.querySelector(
+                `.tab-btn[onclick*="${targetTab}"]`
+            );
+
+            if (!tabButton) return;
+
+            // If already active AND not forced, do nothing
+            if (tabButton.classList.contains('active') && !force) return;
+
             setTimeout(() => {
-                // Scroll to promo section
                 document.getElementById('promos')?.scrollIntoView({
                     behavior: 'smooth',
                     block: 'start'
                 });
 
-                // Activate tab
-                const tabButton = document.querySelector(
-                    `.tab-btn[onclick*="${targetTab}"]`
-                );
-
-                if (tabButton && !tabButton.classList.contains('active')) {
-                    tabButton.click();
-                }
+                tabButton.click();
             }, 300);
         }
 
-        // Run on first load
-        window.addEventListener('DOMContentLoaded', handlePromoHash);
+        // Initial load
+        window.addEventListener('DOMContentLoaded', () => handlePromoHash(true));
 
-        // Run every time hash changes (manual edit, back/forward, JS)
-        window.addEventListener('hashchange', handlePromoHash);
-
+        // Hash change (manual edit, back/forward)
+        window.addEventListener('hashchange', () => handlePromoHash(true));
     </script>
 </body>
 
