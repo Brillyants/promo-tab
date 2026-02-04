@@ -1267,6 +1267,36 @@
                 closeModal();
             }
         });
+
+        // --- HASH BASED PROMO REDIRECTION (FILE SAFE) ---
+        window.addEventListener('DOMContentLoaded', () => {
+            const hash = window.location.hash.toLowerCase();
+
+            const promoMap = {
+                '#promodaily': 'daily',
+                '#promoeveryday': 'everyday',
+                '#promopayday': 'payday'
+            };
+
+            if (promoMap[hash]) {
+                const targetTab = promoMap[hash];
+
+                setTimeout(() => {
+                    // Scroll to promo section
+                    document.getElementById('promos').scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+
+                    // Activate correct tab
+                    const tabButton = document.querySelector(
+                        `.tab-btn[onclick*="${targetTab}"]`
+                    );
+
+                    if (tabButton) tabButton.click();
+                }, 500);
+            }
+        });
     </script>
 </body>
 
