@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1st Card | The Future of Premium Credit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Space+Grotesk:wght@300;500;700&display=swap');
+
+        :root {
+            --bg-main: #D9DADC;
+            --text-dark: #1a1a1a;
+            --text-muted: #555555;
+            --accent: #0066FF;
+            /* Electric Blue for contrast on light grey */
+            --accent-glow: rgba(0, 102, 255, 0.3);
+            --card-dark: #252525;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            scroll-behavior: auto;
+        }
+
+        h1,
+        h2,
+        h3,
+        .font-space {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* --- Custom Cursor --- */
+        #cursor {
+            position: fixed;
+            width: 12px;
+            height: 12px;
+            background: var(--accent);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10001;
+        }
+
+        #cursor-follower {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            border: 1.5px solid var(--text-dark);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            transition: transform 0.1s ease-out;
+        }
+
+        /* --- Preloader --- */
+        #preloader {
+            position: fixed;
+            inset: 0;
+            background: var(--text-dark);
+            z-index: 10005;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        /* --- Global Elements --- */
+        .glass-dark {
+            background: rgba(26, 26, 26, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 800;
+            line-height: 0.9;
+            letter-spacing: -0.02em;
+        }
+
+        /* --- Horizontal Scroll Section --- */
+        .horizontal-container {
+            width: 300%;
+            /* Adjust based on number of cards */
+            display: flex;
+            height: 100vh;
+        }
+
+        .horizontal-item {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 10%;
+        }
+
+        /* --- 3D Credit Card --- */
+        .card-wrapper {
+            perspective: 1500px;
+        }
+
+        .card-3d {
+            width: 450px;
+            height: 280px;
+            background: linear-gradient(135deg, #222 0%, #000 100%);
+            border-radius: 20px;
+            position: relative;
+            transform-style: preserve-3d;
+            box-shadow: 0 50px 100px rgba(0, 0, 0, 0.3);
+            color: white;
+            transition: transform 0.1s;
+        }
+
+        .card-inner {
+            padding: 40px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* --- Marquee --- */
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+            display: flex;
+            padding: 40px 0;
+        }
+
+        .marquee-content {
+            display: flex;
+            gap: 100px;
+            animation: marquee 30s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* --- Accordion --- */
+        .accordion-item {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .accordion-header {
+            padding: 30px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .card-3d {
+                width: 300px;
+                height: 190px;
+            }
+
+            .horizontal-container {
+                width: 100%;
+                height: auto;
+                flex-direction: column;
+            }
+
+            .horizontal-item {
+                width: 100vw;
+                height: auto;
+                min-height: 100vh;
+                padding: 100px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 1. PRELOADER -->
+    <div id="preloader">
+        <div class="text-center">
+            <h1 class="text-6xl font-black mb-4 tracking-tighter" id="pre-logo">1ST</h1>
+            <div class="w-48 h-[2px] bg-white/10 relative overflow-hidden">
+                <div id="pre-bar" class="absolute left-0 top-0 h-full w-0 bg-blue-500"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CUSTOM CURSOR -->
+    <div id="cursor"></div>
+    <div id="cursor-follower"></div>
+
+    <!-- NAVIGATION -->
+    <nav class="fixed top-0 w-full z-50 p-6 flex justify-between items-center transition-all duration-500" id="navbar">
+        <div class="text-2xl font-black tracking-tighter">1ST<span class="text-blue-600">CARD.</span></div>
+        <div class="hidden md:flex gap-10 font-bold text-xs uppercase tracking-widest">
+            <a href="#hero" class="nav-item">Alpha</a>
+            <a href="#about" class="nav-item">Philosophy</a>
+            <a href="#experience" class="nav-item">Experience</a>
+            <a href="#apply" class="nav-item text-blue-600 underline underline-offset-8">Apply</a>
+        </div>
+        <button
+            class="bg-black text-white px-8 py-3 rounded-full text-xs font-bold hover:bg-blue-600 transition-colors">PORTAL</button>
+    </nav>
+
+    <main id="smooth-wrapper">
+        <div id="smooth-content">
+
+            <!-- 2. HERO SECTION -->
+            <section id="hero" class="min-h-screen flex items-center justify-center relative overflow-hidden px-6">
+                <div class="text-center z-10">
+                    <h2 class="text-blue-600 font-bold tracking-[0.4em] uppercase text-sm mb-6 block stagger-hero">
+                        Premium Lifestyle</h2>
+                    <h1 class="section-title stagger-hero">BEYOND <br> <span class="italic text-white"
+                            style="-webkit-text-stroke: 1.5px #1a1a1a;">EXPECTATION.</span></h1>
+                    <p class="max-w-xl mx-auto mt-8 text-gray-600 text-lg stagger-hero">
+                        Evolusi kartu kredit bagi mereka yang tidak mengenal kata kompromi. Desain minimalis dengan
+                        fitur maksimalis.
+                    </p>
+                    <div class="mt-12 flex justify-center gap-6 stagger-hero">
+                        <button
+                            class="bg-black text-white px-10 py-5 rounded-2xl font-bold hover:scale-105 transition-transform shadow-2xl">Mulai
+                            Sekarang</button>
+                        <button
+                            class="border border-black/20 px-10 py-5 rounded-2xl font-bold hover:bg-black hover:text-white transition-all">Pelajari</button>
+                    </div>
+                </div>
+
+                <!-- Background Gimmick -->
+                <div class="absolute -bottom-20 left-1/2 -translate-x-1/2 opacity-10 pointer-events-none">
+                    <h1 class="text-[30vw] font-black text-black select-none">1ST</h1>
+                </div>
+            </section>
+
+            <!-- 3. MARQUEE (PARTNERS) -->
+            <section class="marquee-container border-y border-black/5 bg-white/30">
+                <div class="marquee-content font-space font-bold text-3xl uppercase text-gray-400">
+                    <span>EMIRATES LIFESTYLE</span>
+                    <span>HILTON HONORS</span>
+                    <span>BMW PREFERRED</span>
+                    <span>AMERICAN EXPRESS NETWORK</span>
+                    <span>VISA INFINITE</span>
+                    <span>PRADA EXCLUSIVE</span>
+                    <!-- Duplicate for loop -->
+                    <span>EMIRATES LIFESTYLE</span>
+                    <span>HILTON HONORS</span>
+                    <span>BMW PREFERRED</span>
+                    <span>AMERICAN EXPRESS NETWORK</span>
+                    <span>VISA INFINITE</span>
+                    <span>PRADA EXCLUSIVE</span>
+                </div>
+            </section>
+
+            <!-- 4. STATISTICS COUNTER -->
+            <section class="py-32 px-6">
+                <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-20">
+                    <div class="stat-item">
+                        <div class="text-7xl font-black mb-2 counter" data-target="98">0</div>
+                        <p class="text-blue-600 font-bold uppercase tracking-widest text-xs">Customer Satisfaction</p>
+                        <p class="mt-4 text-gray-500">Layanan concierge 24/7 yang siap membantu kebutuhan Anda.</p>
+                    </div>
+                    <div class="stat-item">
+                        <div class="text-7xl font-black mb-2 counter" data-target="150">0</div>
+                        <p class="text-blue-600 font-bold uppercase tracking-widest text-xs">Airport Lounges</p>
+                        <p class="mt-4 text-gray-500">Akses tanpa batas ke lounge eksklusif di seluruh dunia.</p>
+                    </div>
+                    <div class="stat-item">
+                        <div class="text-7xl font-black mb-2 counter" data-target="10">0</div>
+                        <p class="text-blue-600 font-bold uppercase tracking-widest text-xs">Million Limit</p>
+                        <p class="mt-4 text-gray-500">Limit fleksibel yang menyesuaikan dengan gaya hidup Alpha Anda.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. THE CARD ANATOMY (Interactive Zoom) -->
+            <section id="about" class="py-32 bg-white/50 relative overflow-hidden">
+                <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center gap-20">
+                    <div class="flex-1 card-wrapper">
+                        <div class="card-3d" id="interactive-card">
+                            <div class="card-inner">
+                                <div class="flex justify-between items-start">
+                                    <div class="w-16 h-12 bg-gradient-to-br from-gray-400 to-gray-600 rounded-lg"></div>
+                                    <div class="text-2xl font-black">1ST</div>
+                                </div>
+                                <div>
+                                    <div class="text-2xl tracking-[0.3em] font-mono mb-6">•••• •••• •••• 8890</div>
+                                    <div class="flex justify-between items-end">
+                                        <div>
+                                            <p class="text-[8px] uppercase opacity-50">Mastercard World Elite</p>
+                                            <p class="text-sm font-bold tracking-widest uppercase">Member Since 2024</p>
+                                        </div>
+                                        <i data-lucide="contactless" class="w-8 h-8 opacity-50"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-1 space-y-8">
+                        <h2 class="text-5xl font-black leading-tight">Dibuat dengan <br> <span
+                                class="text-blue-600">Ketelitian Tinggi.</span></h2>
+                        <p class="text-gray-500 text-lg">Setiap kartu dicetak menggunakan material komposit titanium
+                            ringan dengan lapisan matte tahan gores.</p>
+                        <div class="space-y-4">
+                            <div
+                                class="flex gap-4 items-center p-4 bg-black/5 rounded-xl border border-black/5 hover:border-blue-500/30 transition-all">
+                                <div class="bg-white p-3 rounded-lg"><i data-lucide="cpu"></i></div>
+                                <div>
+                                    <p class="font-bold">Encrypted Chipset</p>
+                                    <p class="text-xs text-gray-500">Teknologi enkripsi SHA-256 terbaru.</p>
+                                </div>
+                            </div>
+                            <div
+                                class="flex gap-4 items-center p-4 bg-black/5 rounded-xl border border-black/5 hover:border-blue-500/30 transition-all">
+                                <div class="bg-white p-3 rounded-lg"><i data-lucide="fingerprint"></i></div>
+                                <div>
+                                    <p class="font-bold">Biometric Ready</p>
+                                    <p class="text-xs text-gray-500">Otentikasi sidik jari di merchant terpilih.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 6. HORIZONTAL SCROLL SECTION (Experience) -->
+            <section id="experience" class="bg-black text-white">
+                <div class="horizontal-scroll-wrapper">
+                    <div class="horizontal-container">
+                        <!-- Slide 1 -->
+                        <div class="horizontal-item bg-[#111]">
+                            <div class="flex flex-col md:flex-row gap-20 items-center">
+                                <h2 class="text-[10vw] font-black leading-none text-blue-600 opacity-50">01</h2>
+                                <div class="max-w-2xl">
+                                    <h3 class="text-6xl font-black mb-6">Culinary <br> Privilege.</h3>
+                                    <p class="text-gray-400 text-xl">Nikmati akses meja prioritas di 500+ restoran
+                                        Michelin Star di seluruh dunia. Diskon hingga 30% setiap saat.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Slide 2 -->
+                        <div class="horizontal-item bg-[#0a0a0a]">
+                            <div class="flex flex-col md:flex-row-reverse gap-20 items-center">
+                                <h2 class="text-[10vw] font-black leading-none text-blue-600 opacity-50">02</h2>
+                                <div class="max-w-2xl">
+                                    <h3 class="text-6xl font-black mb-6">Global <br> Mobility.</h3>
+                                    <p class="text-gray-400 text-xl">Layanan jemputan limousine bandara gratis di 100
+                                        kota besar. Bepergian dengan gaya dan kenyamanan maksimal.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Slide 3 -->
+                        <div class="horizontal-item bg-[#050505]">
+                            <div class="flex flex-col md:flex-row gap-20 items-center">
+                                <h2 class="text-[10vw] font-black leading-none text-blue-600 opacity-50">03</h2>
+                                <div class="max-w-2xl">
+                                    <h3 class="text-6xl font-black mb-6">Cyber <br> Reward.</h3>
+                                    <p class="text-gray-400 text-xl">Dapatkan 5x poin untuk setiap transaksi digital dan
+                                        konversi langsung ke mata uang crypto atau miles penerbangan.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 7. APP INTEGRATION (Parallax Device) -->
+            <section class="py-40 px-6 overflow-hidden">
+                <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-20">
+                    <div class="flex-1 order-2 md:order-1">
+                        <h2 class="text-6xl font-black mb-8">Kendalikan dalam <br> <span class="text-blue-600">Satu
+                                Genggaman.</span></h2>
+                        <p class="text-gray-500 text-xl mb-10">Aplikasi pendamping yang intuitif. Pantau pengeluaran,
+                            atur limit, hingga kunci kartu hanya dengan satu tap.</p>
+                        <div class="flex gap-4">
+                            <div class="bg-black text-white p-4 rounded-xl flex items-center gap-3">
+                                <i data-lucide="apple"></i>
+                                <div>
+                                    <p class="text-[10px] opacity-50">Download on</p>
+                                    <p class="font-bold">App Store</p>
+                                </div>
+                            </div>
+                            <div class="bg-black text-white p-4 rounded-xl flex items-center gap-3">
+                                <i data-lucide="play"></i>
+                                <div>
+                                    <p class="text-[10px] opacity-50">Get it on</p>
+                                    <p class="font-bold">Google Play</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-1 order-1 md:order-2 relative h-[600px] flex justify-center">
+                        <div class="w-72 h-[550px] bg-white rounded-[3rem] border-8 border-gray-900 shadow-2xl relative overflow-hidden z-10"
+                            id="phone-mockup">
+                            <div class="p-6">
+                                <div class="flex justify-between items-center mb-10"><i data-lucide="menu"></i>
+                                    <div class="w-10 h-10 bg-gray-200 rounded-full"></div>
+                                </div>
+                                <p class="text-xs text-gray-400">Total Balance</p>
+                                <p class="text-2xl font-black mb-10">$12,450.00</p>
+                                <div class="space-y-4">
+                                    <div class="h-12 bg-gray-50 rounded-xl"></div>
+                                    <div class="h-12 bg-gray-50 rounded-xl"></div>
+                                    <div class="h-12 bg-gray-50 rounded-xl"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="absolute w-96 h-96 bg-blue-500/20 blur-[100px] rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 8. COMPARISON TABLE -->
+            <section class="py-32 bg-black text-white px-6">
+                <div class="max-w-5xl mx-auto">
+                    <h2 class="text-4xl font-black mb-16 text-center">Kenapa 1ST Lebih Unggul?</h2>
+                    <div class="space-y-1 overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="border-b border-white/10">
+                                <tr>
+                                    <th class="py-6 font-bold">Fitur Utama</th>
+                                    <th class="py-6 font-bold text-blue-500">1ST CARD</th>
+                                    <th class="py-6 font-bold opacity-30">Bank Biasa</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-white/5">
+                                    <td class="py-6">Biaya Admin Tahunan</td>
+                                    <td class="py-6 text-blue-400">Rp 0 (Selamanya)</td>
+                                    <td class="py-6 opacity-30">Rp 1,000,000+</td>
+                                </tr>
+                                <tr class="border-b border-white/5">
+                                    <td class="py-6">Poin Rewards</td>
+                                    <td class="py-6 text-blue-400">10x Lipat</td>
+                                    <td class="py-6 opacity-30">Standar</td>
+                                </tr>
+                                <tr class="border-b border-white/5">
+                                    <td class="py-6">Layanan Concierge</td>
+                                    <td class="py-6 text-blue-400">Tersedia 24/7</td>
+                                    <td class="py-6 opacity-30">Jam Kerja</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 9. FAQ ACCORDION -->
+            <section class="py-40 px-6 max-w-4xl mx-auto">
+                <h2 class="text-5xl font-black mb-12 text-center">Pertanyaan Umum</h2>
+                <div class="accordion">
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span class="text-xl font-bold">Siapa yang bisa mendaftar?</span>
+                            <i data-lucide="plus"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p class="pb-8 text-gray-500">Siapa saja yang memiliki pendapatan minimal Rp 20 Juta per
+                                bulan dan rekam jejak kredit yang bersih dapat mendaftar melalui aplikasi kami.</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span class="text-xl font-bold">Berapa lama proses persetujuan?</span>
+                            <i data-lucide="plus"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p class="pb-8 text-gray-500">Berkat algoritma AI kami, proses verifikasi data hanya memakan
+                                waktu sekitar 60 detik setelah semua dokumen diunggah.</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span class="text-xl font-bold">Apakah aman digunakan di luar negeri?</span>
+                            <i data-lucide="plus"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p class="pb-8 text-gray-500">Sangat aman. 1st Card menggunakan jaringan Visa/Mastercard
+                                Global dengan proteksi fraud real-time di 200+ negara.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 10. CTA (FINAL) -->
+            <section id="apply" class="py-60 px-6 text-center relative bg-white">
+                <div class="max-w-4xl mx-auto z-10 relative">
+                    <h2 class="text-[10vw] font-black leading-none mb-10 tracking-tighter">READY TO <br> <span
+                            class="text-blue-600">EVOLVE?</span></h2>
+                    <p class="text-2xl text-gray-400 mb-12">Jangan tertinggal. Bergabunglah dengan ribuan Alpha lainnya
+                        yang telah beralih ke masa depan.</p>
+                    <div class="flex flex-col md:flex-row justify-center items-center gap-6">
+                        <input type="text" placeholder="Nomor Telepon Anda"
+                            class="w-full md:w-80 px-8 py-5 rounded-2xl bg-gray-100 border-none focus:ring-2 ring-blue-500 outline-none font-bold">
+                        <button
+                            class="w-full md:w-auto bg-black text-white px-12 py-5 rounded-2xl font-bold hover:bg-blue-600 transition-colors">Dapatkan
+                            Undangan</button>
+                    </div>
+                </div>
+                <!-- Background Shape -->
+                <div class="absolute inset-0 flex items-center justify-center opacity-5 pointer-events-none">
+                    <i data-lucide="crown" size="600"></i>
+                </div>
+            </section>
+
+            <!-- FOOTER -->
+            <footer class="py-20 px-10 border-t border-black/5 bg-gray-50">
+                <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-20">
+                    <div class="flex-1">
+                        <h3 class="text-2xl font-black mb-6">1ST CARD</h3>
+                        <p class="text-gray-400 max-w-sm">Mendefinisikan ulang kemewahan finansial melalui teknologi dan
+                            desain yang tak tertandingi.</p>
+                    </div>
+                    <div class="flex-1 grid grid-cols-2 md:grid-cols-3 gap-10">
+                        <div>
+                            <h4 class="font-bold mb-4">Product</h4>
+                            <ul class="text-sm space-y-2 text-gray-500">
+                                <li>Premium Card</li>
+                                <li>Business</li>
+                                <li>Rewards</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold mb-4">Company</h4>
+                            <ul class="text-sm space-y-2 text-gray-500">
+                                <li>About</li>
+                                <li>Careers</li>
+                                <li>Media</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold mb-4">Social</h4>
+                            <ul class="text-sm space-y-2 text-gray-500">
+                                <li>Instagram</li>
+                                <li>Twitter</li>
+                                <li>LinkedIn</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="max-w-7xl mx-auto mt-20 pt-10 border-t border-black/5 text-xs text-gray-400 flex flex-col md:flex-row justify-between gap-4">
+                    <p>&copy; 2024 1st Card Financial Technologies. Semua Hak Dilindungi.</p>
+                    <div class="flex gap-6">
+                        <a href="#">Privasi</a>
+                        <a href="#">Syarat & Ketentuan</a>
+                    </div>
+                </div>
+            </footer>
+
+        </div>
+    </main>
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // GSAP Plugins
+        gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+        // --- Custom Cursor ---
+        const cursor = document.getElementById('cursor');
+        const follower = document.getElementById('cursor-follower');
+
+        document.addEventListener('mousemove', (e) => {
+            gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0 });
+            gsap.to(follower, { x: e.clientX - 20, y: e.clientY - 20, duration: 0.3 });
+        });
+
+        const hoverables = document.querySelectorAll('button, a, input, .accordion-header');
+        hoverables.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                gsap.to(cursor, { scale: 4, opacity: 0.2 });
+                gsap.to(follower, { scale: 1.5, borderColor: '#0066FF' });
+            });
+            item.addEventListener('mouseleave', () => {
+                gsap.to(cursor, { scale: 1, opacity: 1 });
+                gsap.to(follower, { scale: 1, borderColor: '#1a1a1a' });
+            });
+        });
+
+        // --- Preloader ---
+        window.addEventListener('load', () => {
+            const tl = gsap.timeline();
+            tl.to("#pre-bar", { width: "100%", duration: 1.5, ease: "power4.inOut" })
+                .to("#preloader", { y: "-100%", duration: 1, ease: "expo.inOut" })
+                .from(".stagger-hero", { y: 50, opacity: 0, stagger: 0.1, duration: 1, ease: "power4.out" });
+        });
+
+        // --- Navbar Shadow on Scroll ---
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('glass-dark', 'py-4');
+            } else {
+                nav.classList.remove('glass-dark', 'py-4');
+            }
+        });
+
+        // --- 3D Card Follow ---
+        const card = document.getElementById('interactive-card');
+        document.addEventListener('mousemove', (e) => {
+            const xAxis = (window.innerWidth / 2 - e.clientX) / 25;
+            const yAxis = (window.innerHeight / 2 - e.clientY) / 25;
+            gsap.to(card, { rotateY: xAxis, rotateX: -yAxis, duration: 0.5 });
+        });
+
+        // --- Horizontal Scroll ---
+        let horizontalSections = gsap.utils.toArray(".horizontal-item");
+        gsap.to(horizontalSections, {
+            xPercent: -100 * (horizontalSections.length - 1),
+            ease: "none",
+            scrollTrigger: {
+                trigger: "#experience",
+                pin: true,
+                scrub: 1,
+                end: () => "+=" + document.querySelector(".horizontal-container").offsetWidth
+            }
+        });
+
+        // --- Counter Animation ---
+        const counters = document.querySelectorAll('.counter');
+        counters.forEach(counter => {
+            const target = +counter.getAttribute('data-target');
+            ScrollTrigger.create({
+                trigger: counter,
+                start: "top 80%",
+                onEnter: () => {
+                    let obj = { val: 0 };
+                    gsap.to(obj, {
+                        val: target,
+                        duration: 2,
+                        onUpdate: () => {
+                            counter.innerText = Math.floor(obj.val) + "+";
+                        }
+                    });
+                }
+            });
+        });
+
+        // --- Phone Mockup Parallax ---
+        gsap.to("#phone-mockup", {
+            y: -100,
+            scrollTrigger: {
+                trigger: "#phone-mockup",
+                scrub: true
+            }
+        });
+
+        // --- Accordion Logic ---
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const content = header.nextElementSibling;
+                const icon = header.querySelector('i');
+
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                    gsap.to(icon, { rotate: 0 });
+                } else {
+                    document.querySelectorAll('.accordion-content').forEach(c => c.style.maxHeight = null);
+                    document.querySelectorAll('.accordion-header i').forEach(i => gsap.to(i, { rotate: 0 }));
+                    content.style.maxHeight = content.scrollHeight + "px";
+                    gsap.to(icon, { rotate: 45 });
+                }
+            });
+        });
+
+        // --- Text Animation (Scroll Reveal) ---
+        gsap.utils.toArray(".section-title").forEach(title => {
+            gsap.from(title, {
+                scrollTrigger: {
+                    trigger: title,
+                    start: "top 80%",
+                },
+                y: 100,
+                opacity: 0,
+                duration: 1.5,
+                ease: "power4.out"
+            });
+        });
+
+    </script>
+</body>
+
+</html>

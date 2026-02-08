@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nyala Global - Promo Ceria</title>
+    <!-- Fonts & GSAP -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <style>
+        body.modal-open {
+            overflow: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #FF6B6B;
+        }
+
+        :root {
+            --primary: #FF6B6B;
+            --primary-dark: #e05a5a;
+            --secondary: #4ECDC4;
+            --accent: #FFE66D;
+            --dark: #1A1A1A;
+            --light: #F8F9FA;
+            --gray: #6C757D;
+            --glass: rgba(255, 255, 255, 0.85);
+            --shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- Custom Cursor --- */
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0;
+        }
+
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .cursor-outline {
+            width: 36px;
+            height: 36px;
+            border: 2px solid rgba(255, 107, 107, 0.5);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: transform 0.15s ease;
+        }
+
+        @media (min-width: 768px) {
+
+            .cursor-dot,
+            .cursor-outline {
+                opacity: 1;
+            }
+
+            body {
+                cursor: none;
+            }
+        }
+
+        /* --- Header / Nav --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 5%;
+            z-index: 998;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        nav.scrolled {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            padding: 15px 5%;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo img {
+            width: 180px;
+            height: auto;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            position: relative;
+            height: 100vh;
+            min-height: 700px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            background: var(--dark);
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.6;
+            transform: scale(1.1);
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to right, rgba(0, 0, 0, 0.4), transparent);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 0 5%;
+            max-width: 1200px;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-size: clamp(32px, 5vw, 56px);
+            color: white;
+            margin-bottom: 30px;
+            line-height: 1.1;
+            font-weight: 800;
+            max-width: 800px;
+        }
+
+        .hero-promo-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            max-width: 800px;
+        }
+
+        .hero-promo-card {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .hero-promo-card img {
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-secondary {
+            text-align: center;
+            padding: 10px 20px;
+            border: 2px solid white;
+            color: white;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 18px;
+            transition: 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        /* --- Section Intro --- */
+        .section-intro {
+            padding: 100px 8% 10px;
+            text-align: center;
+        }
+
+        .section-intro h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .highlight {
+            color: var(--primary);
+            position: relative;
+        }
+
+        /* --- Tabbing System --- */
+        .tab-wrapper {
+            display: flex;
+            justify-content: center;
+            padding: 20px 5%;
+            margin-bottom: 40px;
+        }
+
+        .tab-nav {
+            background: white;
+            padding: 10px;
+            border-radius: 20px;
+            display: flex;
+            gap: 10px;
+            box-shadow: var(--shadow);
+        }
+
+        .tab-btn {
+            border: none;
+            background: none;
+            padding: 15px 30px;
+            font-weight: 700;
+            border-radius: 15px;
+            font-size: 16px;
+            cursor: pointer;
+            color: var(--gray);
+            transition: 0.3s;
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .tab-pane {
+            display: none;
+            padding: 0 5% 80px;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+        }
+
+        .tab-pane.active {
+            display: grid;
+        }
+
+        @media (max-width: 1200px) {
+            .tab-pane {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .tab-pane {
+                grid-template-columns: 1fr;
+            }
+
+            .tab-nav {
+                flex-direction: column;
+                width: 100%;
+            }
+        }
+
+        /* --- Promo Card --- */
+        .promo-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid #eee;
+            transition: var(--transition);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .promo-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow);
+            border-color: var(--primary);
+        }
+
+        .promo-image-container {
+            position: relative;
+            aspect-ratio: 1;
+            overflow: hidden;
+        }
+
+        .promo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.6s;
+        }
+
+        .promo-card:hover .promo-img {
+            transform: scale(1.1);
+        }
+
+        .promo-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 800;
+            z-index: 2;
+        }
+
+        .promo-body {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .promo-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .promo-body h3 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .promo-body p {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 15px;
+        }
+
+        .promo-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        /* --- MODAL UPDATED WITH VERTICAL TABS --- */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-container {
+            background: white;
+            width: 100%;
+            max-width: 900px;
+            border-radius: 24px;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            max-height: 90vh;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            background: var(--primary);
+            transform: rotate(90deg);
+        }
+
+        .modal-header-banner {
+            width: 100%;
+            height: 200px;
+            background: #f9f9f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-header-banner img {
+            height: 80%;
+            object-fit: contain;
+        }
+
+        .modal-main {
+            display: flex;
+            flex-grow: 1;
+            overflow: hidden;
+        }
+
+        /* Sidebar Tabs */
+        .modal-sidebar {
+            width: 200px;
+            border-right: 1px solid #eee;
+            background: #fcfcfc;
+            padding: 20px 10px;
+            overflow-y: auto;
+        }
+
+        .merchant-tab {
+            width: 100%;
+            padding: 12px 15px;
+            text-align: left;
+            border: none;
+            background: none;
+            border-radius: 12px;
+            font-family: inherit;
+            font-weight: 700;
+            cursor: pointer;
+            margin-bottom: 8px;
+            transition: 0.3s;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .merchant-tab.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+        }
+
+        /* Content Area */
+        .modal-body {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .modal-body h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .merchant-desc {
+            color: var(--gray);
+            margin-bottom: 25px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+        }
+
+        .tnc-section h4 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .tnc-content {
+            font-size: 0.95rem;
+        }
+
+        .tnc-content ul {
+            padding-left: 18px;
+        }
+
+        .tnc-content li {
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .modal-main {
+                flex-direction: column;
+            }
+
+            .modal-sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #eee;
+                display: flex;
+                gap: 10px;
+                padding: 15px;
+            }
+
+            .merchant-tab {
+                margin-bottom: 0;
+                white-space: nowrap;
+                width: auto;
+            }
+
+            .modal-header-banner {
+                height: 150px;
+            }
+        }
+
+        .site-footer-section {
+            padding: 20px;
+            background: #d32f2f;
+            color: white;
+            text-align: center;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <nav id="navbar">
+        <div class="logo">
+            <img src="https://cdn1.ocbc.id/asset/media/Project/OCBC/OCBCID/V1/Header/Logo-Menu/ocbc-red.png" alt="OCBC">
+        </div>
+    </nav>
+
+    <section class="hero">
+        <img src="https://cdn1.ocbc.id/asset/media/Feature/Banner/Main-Banner/2025/12/31/main-banner-nyala-fun-fit_d.jpg"
+            class="hero-bg">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <span class="hero-tag">#NyalaCuanEveryday</span>
+            <h1>Dari awal minggu sampai akhir pekan, promo Nyala Global Debit <span class="highlight">selalu bikin
+                    cuan.</span></h1>
+            <div class="hero-promo-grid">
+                <div class="hero-promo-card">
+                    <img src="https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/nyala_5bb25c225e.png">
+                    <a href="#" class="btn-secondary">Buka Nyala</a>
+                </div>
+                <div class="hero-promo-card">
+                    <img src="https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/90n_187803c4e9.png">
+                    <a href="#" class="btn-secondary">Join Premier Banking</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-intro" id="promos">
+        <h2 class="reveal">Nikmati Promo <span class="highlight">Nyala Global Debit</span></h2>
+        <p class="reveal">Setiap hari selalu ada promo berbeda untuk penuhi kebutuhan kamu.</p>
+    </section>
+
+    <div class="tab-wrapper reveal">
+        <div class="tab-nav">
+            <button class="tab-btn active" onclick="switchTab(event, 'daily')">🍕 Daily Win</button>
+            <button class="tab-btn" onclick="switchTab(event, 'everyday')">✈️ Everyday Win</button>
+            <button class="tab-btn" onclick="switchTab(event, 'payday')">🛍️ Payday Win</button>
+        </div>
+    </div>
+
+    <!-- Tab Daily Win -->
+    <div id="daily" class="tab-pane active">
+        <!-- Monday -->
+        <div class="promo-card" onclick="openMerchantModal('Monday Promo', 'https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/UK_guide_526dffffc5.svg', [
+            { 
+                name: 'Tokopedia', 
+                desc: 'Diskon 5% hingga Rp20.000 untuk kategori Digital Goods.',
+                content: `
+<ul>
+  <li>Diskon 5% dengan maksimum Rp20.000</li>
+  <li>Minimum transaksi Rp300.000</li>
+  <li>Berlaku setiap hari Senin selama periode 5 Januari – 31 Desember 2026</li>
+  <li>Kode promo: OCBCDG</li>
+  <li>Kuota terbatas 250 transaksi pertama per bulan</li>
+  <li>Berlaku untuk produk Digital Goods Tokopedia meliputi Top Up Uang Elektronik dan pembayaran tagihan (E-Invoicing, Listrik, PDAM, Internet, dan Kartu Kredit).</li>
+  <li>Transaksi wajib menggunakan Kartu Debit OCBC Mastercard BIN 537940 dan 531928, termasuk Nyala Global Debit dan Premier Global Debit.</li>
+  <li>Tidak berlaku untuk Virtual Debit Card.</li>
+  <li>
+    Langkah penggunaan promo:
+    <ul>
+      <li>Pilih menu Top Up & Tagihan di Tokopedia</li>
+      <li>Masukkan kode promo OCBCDG</li>
+      <li>Pilih metode pembayaran Kartu Kredit / Debit</li>
+      <li>Masukkan detail kartu dan OTP untuk menyelesaikan transaksi</li>
+    </ul>
+  </li>
+</ul>
+`
+            }
+        ])">
+            <div class="promo-image-container">
+                <span class="promo-badge">Monday</span>
+                <img src="https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/UK_guide_526dffffc5.svg"
+                    class="promo-img">
+            </div>
+            <div class="promo-body">
+                <h3>Senin bayar-bayar</h3>
+                <p>Nikmati diskon 5% untuk pembelian di Digital Goods Tokopedia dengan Kartu OCBC Global Debit!</p>
+                <div class="promo-footer"><span>Lihat Detail</span><i>→</i></div>
+            </div>
+        </div>
+
+        <!-- Tuesday -->
+        <div class="promo-card" onclick="openMerchantModal('Tuesday Promo', 'https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/UK_guide_526dffffc5.svg', [
+            { 
+                name: 'Blibli Sports', 
+                desc: 'Diskon 5% hingga Rp20.000 untuk kategori Digital Goods.',
+                content: `
+<ul>
+  <li>Diskon 8% hingga Rp150.000</li>
+  <li>Minimum transaksi Rp1.500.000</li>
+  <li>Berlaku setiap hari Selasa selama periode 1 Februari – 30 Juni 2026</li>
+  <li>Kode Promo: OCBCSPORTS</li>
+  <li>Kuota terbatas 20 transaksi pertama per hari</li>
+  <li>Berlaku untuk produk olahraga di Blibli, termasuk pada merek: Nike, Adidas, On, Puma, Arkais, Dept Lab, Brooks, New Balance, Hydro Flask, 2XU, Asics, Bodimax, Saucony, Technifibre, dan Padelnesia.</li>
+  <li>Transaksi wajib menggunakan Kartu Debit OCBC Mastercard BIN 537940 dan 531928, termasuk Nyala Global Debit dan Premier Global Debit.</li>
+  <li>Tidak berlaku untuk Virtual Debit Card.</li>
+  <li>Berlaku maksimal 1 (satu) kali transaksi per kartu per bulan.</li>
+  <li>
+    Langkah penggunaan promo:
+    <ul>
+      <li>Pilih produk di aplikasi Blibli</li>
+      <li>Lanjut ke menu Checkout</li>
+      <li>Pilih metode pembayaran Kartu Kredit / Debit</li>
+      <li>Masukkan detail kartu dan OTP untuk menyelesaikan transaksi</li>
+    </ul>
+  </li>
+</ul>
+`
+            }
+        ])">
+            <div class="promo-image-container">
+                <span class="promo-badge">Monday</span>
+                <img src="https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/UK_guide_526dffffc5.svg"
+                    class="promo-img">
+            </div>
+            <div class="promo-body">
+                <h3>Selasa FIT</h3>
+                <p>Hemat 8% setiap hari Selasa untuk belanja kebutuhan olahraga</p>
+                <div class="promo-footer"><span>Lihat Detail</span><i>→</i></div>
+            </div>
+        </div>
+
+        <!-- Wednesday -->
+        <div class="promo-card" onclick="openMerchantModal('Treats Wednesday', 'https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/UK_guide_526dffffc5.svg', [
+            { 
+                name: 'Yoshinoya', 
+                desc: 'Cashback 50% hingga Rp25.000.',
+                content: `
+<ul>
+  <li>Cashback 50% hingga Rp25.000</li>
+  <li>Berlaku setiap hari Rabu</li>
+  <li>Minimum transaksi Rp50.000 (setelah pajak & service)</li>
+  <li>
+    Berlaku untuk Kartu Debit OCBC berlogo Mastercard, termasuk:
+    <ul>
+      <li>Nyala Global Debit</li>
+      <li>Premier Global Debit</li>
+      <li>Young Nyala Debit</li>
+    </ul>
+  </li>
+  <li>Berlaku di seluruh outlet Yoshinoya di Indonesia</li>
+  <li>Berlaku 1 (satu) kali transaksi per hari per Nasabah</li>
+  <li>Berlaku maksimal 2 (dua) kali transaksi per bulan per Nasabah</li>
+  <li>Berlaku untuk 150 transaksi pertama per hari</li>
+  <li>Promo tidak berlaku kelipatan</li>
+  <li>Cashback akan dikreditkan ke rekening tabungan pemegang kartu paling lambat 1 x 24 jam setelah transaksi berhasil</li>
+</ul>
+
+<p>
+  Untuk pertanyaan lebih lanjut mengenai Program ini dapat menghubungi
+  TANYA OCBC1500-999 atau +62-21-26506300 dari luar negeri atau melalui website www.ocbc.id
+</p><br>
+`
+            },
+            { 
+                name: 'Subway', 
+                desc: 'Diskon 50% hingga Rp25.000.',
+                content: `<p><b>
+  Saatnya makan lebih hemat! Dapatkan diskon 50% hingga Rp25 Ribu di Subway dengan Kartu OCBC Global Debit!
+</b></p><br>
+
+<p><b>Syarat & Ketentuan:</b></p>
+
+<ul>
+  <li>Diskon 50% hingga Rp25.000</li>
+  <li>Berlaku setiap hari Rabu</li>
+  <li>Minimum transaksi Rp50.000 (sebelum pajak & service)</li>
+  <li>
+    Berlaku untuk kartu debit OCBC berlogo Mastercard, termasuk:
+    <ul>
+      <li>Nyala Global Debit</li>
+      <li>Premier Global Debit</li>
+      <li>Young Nyala Debit</li>
+    </ul>
+  </li>
+  <li>Berlaku di seluruh outlet Subway di Indonesia</li>
+  <li>Berlaku 4 (empat) kali transaksi per bulan per Nasabah</li>
+  <li>Berlaku maksimal 2 (dua) kali transaksi per bulan per Nasabah</li>
+</ul>
+
+<p>
+  Untuk pertanyaan lebih lanjut mengenai Program ini dapat menghubungi
+  TANYA OCBC1500-999 atau +62-21-26506300 dari luar negeri atau melalui website www.ocbc.id
+</p>
+`
+            }
+        ])">
+            <div class="promo-image-container">
+                <span class="promo-badge">Wednesday</span>
+                <img src="https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/UK_guide_526dffffc5.svg"
+                    class="promo-img">
+            </div>
+            <div class="promo-body">
+                <h3>Rabu makan seru</h3>
+                <p>Nikmati makanan favoritmu di Yoshinoya & Subway dengan cashback 50% hingga Rp25 Ribu setiap hari Rabu
+                    dengan Kartu OCBC Global Debit.</p>
+                <div class="promo-footer"><span>Lihat Detail</span><i>→</i></div>
+            </div>
+        </div>
+
+        <!-- Thursday -->
+        <div class="promo-card" onclick="openMerchantModal('Coffee Thursday', 'https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/UK_guide_526dffffc5.svg', [
+            { 
+                name: 'Coffee Thursday', 
+                desc: 'Beli kopi bisa hemat hingga Rp25 Ribu dengan kartu Nyala Global Debit',
+                content: `
+<ul>
+  <li>Diskon 50% hingga Rp25.000</li>
+  <li>Berlaku setiap hari Kamis</li>
+</ul>
+`
+            }
+        ])">
+            <div class="promo-image-container">
+                <span class="promo-badge">Wednesday</span>
+                <img src="https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/UK_guide_526dffffc5.svg"
+                    class="promo-img">
+            </div>
+            <div class="promo-body">
+                <h3>Ngopi manis</h3>
+                <p>Beli kopi bisa hemat hingga Rp25 Ribu dengan kartu Nyala Global Debit</p>
+                <div class="promo-footer"><span>Lihat Detail</span><i>→</i></div>
+            </div>
+        </div>
+
+        <!-- Weekend -->
+        <div class="promo-card" onclick="openMerchantModal('Weekend Win', 'https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/JAP_guide_71f5f01ba8.svg', [
+            { 
+                name: 'Cinema XXI', 
+                desc: 'Cashback Rp20.000 untuk Tiket & Jajan di XXI.',
+                content: `
+<ul>
+  <li>Cashback Rp20.000 untuk pembelian <b>tiket serta food and beverage</b> di <b>m.tix (m.food) dan outlet XXI</b> (berlaku online maupun offline).</li>
+  <li>Minimum transaksi Rp100.000 menggunakan Kartu Debit OCBC Mastercard (BIN: 537940, 531928, 518316).</li>
+  <li>Berlaku setiap weekend (hari Jumat, Sabtu dan Minggu) selama Periode Program.</li>
+  <li>Berlaku untuk 1 (satu) kali transaksi/nasabah/bulan.</li>
+  <li>Tidak dapat digabung dengan promo lainnya dan split bill.</li>
+  <li>Pengguna yang memenuhi syarat akan mendapatkan cashback paling lambat 3 x 24 jam setelah sukses bertransaksi.</li>
+  <li>Kuota berlaku untuk 1.050 transaksi pertama per bulan.</li>
+  <li>Pengguna yang memenuhi syarat akan mendapatkan cashback paling lambat 1 x 24 jam setelah sukses bertransaksi.</li>
+  <li>Program berlaku di semua XXI Café dan M-Tix di Indonesia.</li>
+  <li>OCBC dan merchant berhak melakukan perubahan ketentuan program tanpa pemberitahuan sebelumnya.</li>
+  <li>Untuk pertanyaan lebih lanjut mengenai Program ini dapat menghubungi TANYA OCBC 1500-999 atau +62-21-26506300 dari luar negeri atau melalui website www.ocbc.id.</li>
+</ul>
+`
+            }
+        ])">
+            <div class="promo-image-container">
+                <span class="promo-badge">Fri - Sun</span>
+                <img src="https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/JAP_guide_71f5f01ba8.svg"
+                    class="promo-img">
+            </div>
+            <div class="promo-body">
+                <h3>Weekend FUN</h3>
+                <p>Cashback Rp20 Ribu untuk jajan dan nonton di XXI pakai Nyala Global Debit setiap weekend</p>
+                <div class="promo-footer"><span>Lihat Detail</span><i>→</i></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab: Everyday Win -->
+    <div id="everyday" class="tab-pane">
+        <a href="https://web.ocbc.id/shell" class="promo-link">
+            <div class="promo-card">
+                <div class="promo-image-container">
+                    <span class="promo-badge">Everyday</span>
+                    <img src="https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/logo_shell_973ba6d548.jpg"
+                        class="promo-img" alt="Travel">
+                </div>
+
+                <div class="promo-body">
+                    <div>
+                        <h3>Shell</h3>
+                        <p>Please provide copy for this content.</p>
+                    </div>
+                    <div class="promo-footer">
+                        <span>Lihat Detail</span>
+                        <i>→</i>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <a href="https://web.ocbc.id/tokopedia" class="promo-link">
+            <div class="promo-card">
+                <div class="promo-image-container">
+                    <span class="promo-badge">Everyday</span>
+                    <img src="https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/logo_tokopedia_d8e3098080.jpg"
+                        class="promo-img" alt="Tokopedia">
+                </div>
+
+                <div class="promo-body">
+                    <div>
+                        <h3>Tokopedia</h3>
+                        <p>Please provide copy for this content.</p>
+                    </div>
+                    <div class="promo-footer">
+                        <span>Lihat Detail</span>
+                        <i>→</i>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <a href="https://web.ocbc.id/shopee" class="promo-link">
+            <div class="promo-card">
+                <div class="promo-image-container">
+                    <span class="promo-badge">Everyday</span>
+                    <img src="https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/logo_shopee_c76750f262.jpg"
+                        class="promo-img" alt="Travel">
+                </div>
+
+                <div class="promo-body">
+                    <div>
+                        <h3>Shopee</h3>
+                        <p>Please provide copy for this content.</p>
+                    </div>
+                    <div class="promo-footer">
+                        <span>Lihat Detail</span>
+                        <i>→</i>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <a href="https://web.ocbc.id/ohsome" class="promo-link">
+            <div class="promo-card">
+                <div class="promo-image-container">
+                    <span class="promo-badge">Everyday</span>
+                    <img src="https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/logo_oh_some_013a8be0d9.jpg"
+                        class="promo-img" alt="Oh! Some">
+                </div>
+
+                <div class="promo-body">
+                    <div>
+                        <h3>Oh! Some</h3>
+                        <p>Please provide copy for this content.</p>
+                    </div>
+                    <div class="promo-footer">
+                        <span>Lihat Detail</span>
+                        <i>→</i>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <a href="https://web.ocbc.id/astro" class="promo-link">
+            <div class="promo-card">
+                <div class="promo-image-container">
+                    <span class="promo-badge">Everyday</span>
+                    <img src="https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/logo_astro_05568555a6.jpg"
+                        class="promo-img" alt="Astro">
+                </div>
+
+                <div class="promo-body">
+                    <div>
+                        <h3>Astro</h3>
+                        <p>Please provide copy for this content.</p>
+                    </div>
+                    <div class="promo-footer">
+                        <span>Lihat Detail</span>
+                        <i>→</i>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <a href="https://web.ocbc.id/traveloka" class="promo-link">
+            <div class="promo-card">
+                <div class="promo-image-container">
+                    <span class="promo-badge">Everyday</span>
+                    <img src="https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/logo_traveloka_9032184f23.jpg"
+                        class="promo-img" alt="Traveloka">
+                </div>
+
+                <div class="promo-body">
+                    <div>
+                        <h3>Traveloka</h3>
+                        <p>Please provide copy for this content.</p>
+                    </div>
+                    <div class="promo-footer">
+                        <span>Lihat Detail</span>
+                        <i>→</i>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Tab: Payday Win -->
+    <div id="payday" class="tab-pane">
+        <a href="https://web.ocbc.id/grab" class="promo-link">
+            <div class="promo-card">
+                <div class="promo-image-container">
+                    <span class="promo-badge">Payday</span>
+                    <img src="https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/logo_grab_dine_out_276e308f7f.jpg"
+                        class="promo-img" alt="Grab Dine Out">
+                </div>
+
+                <div class="promo-body">
+                    <div>
+                        <h3>Grab Dine Out</h3>
+                        <p>Please provide copy for this content.</p>
+                    </div>
+                    <div class="promo-footer">
+                        <span>Lihat Detail</span>
+                        <i>→</i>
+                    </div>
+                </div>
+            </div>
+        </a>
+
+        <a href="https://web.ocbc.id/minimarket" class="promo-link">
+            <div class="promo-card">
+                <div class="promo-image-container">
+                    <span class="promo-badge">Payday</span>
+                    <img src="https://seosecret.id/placeholder/1080x1080/d5d5d5/584959" class="promo-img" alt="Travel">
+                </div>
+
+                <div class="promo-body">
+                    <div>
+                        <h3>Minimarket</h3>
+                        <p>Please provide copy for this content.</p>
+                    </div>
+                    <div class="promo-footer">
+                        <span>Lihat Detail</span>
+                        <i>→</i>
+                    </div>
+                </div>
+            </div>
+        </a>
+
+        <a href="https://web.ocbc.id/shopee" class="promo-link">
+            <div class="promo-card">
+                <div class="promo-image-container">
+                    <span class="promo-badge">Payday</span>
+                    <img src="https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/logo_shopee_c76750f262.jpg"
+                        class="promo-img" alt="Travel">
+                </div>
+
+                <div class="promo-body">
+                    <div>
+                        <h3>Shopee</h3>
+                        <p>Please provide copy for this content.</p>
+                    </div>
+                    <div class="promo-footer">
+                        <span>Lihat Detail</span>
+                        <i>→</i>
+                    </div>
+                </div>
+            </div>
+        </a>
+
+        <a href="https://web.ocbc.id/tokopedia" class="promo-link">
+            <div class="promo-card">
+                <div class="promo-image-container">
+                    <span class="promo-badge">Payday</span>
+                    <img src="https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/logo_tokopedia_d8e3098080.jpg"
+                        class="promo-img" alt="Travel">
+                </div>
+
+                <div class="promo-body">
+                    <div>
+                        <h3>Tokopedia</h3>
+                        <p>Please provide copy for this content.</p>
+                    </div>
+                    <div class="promo-footer">
+                        <span>Lihat Detail</span>
+                        <i>→</i>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <footer class="site-footer-section">
+        PT Bank OCBC NISP Tbk berizin dan diawasi oleh OJK & BI, serta peserta penjaminan LPS.
+    </footer>
+
+    <!-- MODAL OVERLAY -->
+    <div class="modal-overlay" id="merchantModal">
+        <div class="modal-container">
+            <button class="modal-close" onclick="closeMerchantModal()">✕</button>
+
+            <div class="modal-header-banner">
+                <img id="modalBanner" src="" alt="">
+            </div>
+
+            <div class="modal-main">
+                <!-- Vertical Tabs -->
+                <div class="modal-sidebar" id="merchantTabsList">
+                    <!-- Tabs injected here -->
+                </div>
+
+                <!-- Active Content -->
+                <div class="modal-body">
+                    <h2 id="merchantTitle">Merchant Name</h2>
+                    <p class="merchant-desc" id="merchantDesc">Description summary.</p>
+
+                    <div class="tnc-section">
+                        <h4>Syarat & Ketentuan</h4>
+                        <div class="tnc-content" id="merchantTnc">
+                            <!-- TNC Content injected here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- State Management ---
+        let currentMerchants = [];
+
+        // --- GSAP & Cursor ---
+        window.addEventListener('DOMContentLoaded', () => {
+            const cursorDot = document.querySelector('.cursor-dot');
+            const cursorOutline = document.querySelector('.cursor-outline');
+
+            window.addEventListener('mousemove', (e) => {
+                gsap.to(cursorDot, { x: e.clientX, y: e.clientY, duration: 0 });
+                gsap.to(cursorOutline, { x: e.clientX, y: e.clientY, duration: 0.15 });
+            });
+
+            gsap.registerPlugin(ScrollTrigger);
+            gsap.utils.toArray('.reveal').forEach(el => {
+                gsap.from(el, {
+                    scrollTrigger: { trigger: el, start: 'top 90%' },
+                    opacity: 0, y: 30, duration: 1, ease: 'power3.out'
+                });
+            });
+        });
+
+        // --- Navbar ---
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            nav.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // --- Tab Logic ---
+        function switchTab(event, id) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+
+            event.currentTarget.classList.add('active');
+            const target = document.getElementById(id);
+            target.classList.add('active');
+        }
+
+        // --- MODAL MERCHANT LOGIC ---
+        function openMerchantModal(mainTitle, bannerImg, merchants) {
+            currentMerchants = merchants;
+            document.body.classList.add('modal-open');
+            document.getElementById('modalBanner').src = bannerImg;
+
+            const tabList = document.getElementById('merchantTabsList');
+            tabList.innerHTML = '';
+
+            // Create Sidebar Tabs
+            merchants.forEach((m, index) => {
+                const btn = document.createElement('button');
+                btn.className = `merchant-tab ${index === 0 ? 'active' : ''}`;
+                btn.textContent = m.name;
+                btn.onclick = () => selectMerchant(index);
+                tabList.appendChild(btn);
+            });
+
+            // Show first merchant by default
+            selectMerchant(0);
+
+            const overlay = document.getElementById('merchantModal');
+            overlay.style.display = 'flex';
+            gsap.fromTo(".modal-container", { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(1.7)" });
+        }
+
+        function selectMerchant(index) {
+            const m = currentMerchants[index];
+
+            // Update UI
+            document.getElementById('merchantTitle').textContent = m.name;
+            document.getElementById('merchantDesc').textContent = m.desc;
+            document.getElementById('merchantTnc').innerHTML = m.content;
+
+            // Update Tab Active State
+            document.querySelectorAll('.merchant-tab').forEach((tab, i) => {
+                tab.classList.toggle('active', i === index);
+            });
+
+            // Animate Content Entrance
+            gsap.fromTo(".modal-body", { opacity: 0, x: 10 }, { opacity: 1, x: 0, duration: 0.3 });
+        }
+
+        function closeMerchantModal() {
+            document.body.classList.remove('modal-open');
+            gsap.to(".modal-container", {
+                scale: 0.8, opacity: 0, duration: 0.3, onComplete: () => {
+                    document.getElementById('merchantModal').style.display = 'none';
+                }
+            });
+        }
+
+        // Close on overlay click
+        document.getElementById('merchantModal').onclick = (e) => {
+            if (e.target.id === 'merchantModal') closeMerchantModal();
+        }
+    </script>
+</body>
+
+</html>
