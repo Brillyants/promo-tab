@@ -321,7 +321,6 @@
         .promo-img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
             transition: 0.6s;
         }
 
@@ -466,6 +465,9 @@
             transition: 0.3s;
             color: var(--gray);
             font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .merchant-tab.active {
@@ -636,7 +638,7 @@
         </div>
 
         <!-- Tuesday -->
-        <div class="promo-card" onclick="openMerchantModal('Tuesday Promo', 'https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/UK_guide_526dffffc5.svg', [
+        <div class="promo-card" onclick="openMerchantModal('Tuesday Promo', 'https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/CH_e3b5fc2745.svg', [
             { 
                 name: 'Blibli Sports', 
                 desc: 'Diskon 5% hingga Rp20.000 untuk kategori Digital Goods.',
@@ -666,7 +668,7 @@
         ])">
             <div class="promo-image-container">
                 <span class="promo-badge">Monday</span>
-                <img src="https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/UK_guide_526dffffc5.svg"
+                <img src="https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/CH_e3b5fc2745.svg"
                     class="promo-img">
             </div>
             <div class="promo-body">
@@ -755,7 +757,7 @@
         </div>
 
         <!-- Thursday -->
-        <div class="promo-card" onclick="openMerchantModal('Coffee Thursday', 'https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/UK_guide_526dffffc5.svg', [
+        <div class="promo-card" onclick="openMerchantModal('Coffee Thursday', 'https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/AUS_fuide_b779e915d3.svg', [
             { 
                 name: 'Coffee Thursday', 
                 desc: 'Beli kopi bisa hemat hingga Rp25 Ribu dengan kartu Nyala Global Debit',
@@ -768,8 +770,8 @@
             }
         ])">
             <div class="promo-image-container">
-                <span class="promo-badge">Wednesday</span>
-                <img src="https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/UK_guide_526dffffc5.svg"
+                <span class="promo-badge">Thursday</span>
+                <img src="https://on-c2-cmshub-public.s3.ap-southeast-3.amazonaws.com/AUS_fuide_b779e915d3.svg"
                     class="promo-img">
             </div>
             <div class="promo-body">
@@ -1127,6 +1129,12 @@
         function selectMerchant(index) {
             const m = currentMerchants[index];
 
+            // FIX: Reset scroll position of the content body to top when switching tabs
+            const modalBody = document.querySelector('.modal-body');
+            if (modalBody) {
+                modalBody.scrollTop = 0;
+            }
+
             // Update UI
             document.getElementById('merchantTitle').textContent = m.name;
             document.getElementById('merchantDesc').textContent = m.desc;
@@ -1139,6 +1147,15 @@
 
             // Animate Content Entrance
             gsap.fromTo(".modal-body", { opacity: 0, x: 10 }, { opacity: 1, x: 0, duration: 0.3 });
+        }
+
+        function closeMerchantModal() {
+            document.body.classList.remove('modal-open');
+            gsap.to(".modal-container", {
+                scale: 0.8, opacity: 0, duration: 0.3, onComplete: () => {
+                    document.getElementById('merchantModal').style.display = 'none';
+                }
+            });
         }
 
         function closeMerchantModal() {
