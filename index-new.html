@@ -541,12 +541,34 @@
             }
         }
 
+        /* Start Site Footer Section */
         .site-footer-section {
             padding: 20px;
-            background: #d32f2f;
+            background-color: #d32f2f;
+        }
+
+        .site-footer-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            padding-left: 4%;
+            padding-right: 4%;
+            margin: 0 auto;
+            align-items: center;
+        }
+
+        .site-footer-content p {
+            font-size: 14px;
             color: white;
-            text-align: center;
-            font-size: 13px;
+        }
+
+        @media screen and (max-width: 750px) {
+            .site-footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .site-footer-content {
+                text-align: center;
+            }
         }
     </style>
 </head>
@@ -1026,9 +1048,17 @@
         </a>
     </div>
 
-    <footer class="site-footer-section">
-        PT Bank OCBC NISP Tbk berizin dan diawasi oleh OJK & BI, serta peserta penjaminan LPS.
-    </footer>
+    <section class="site-footer-section">
+        <div class="site-footer-grid">
+            <div class="site-footer-content">
+                <p>
+                    PT Bank OCBC NISP Tbk berizin dan diawasi oleh Otoritas Jasa
+                    Keuangan &amp; Bank Indonesia, serta merupakan peserta penjaminan
+                    LPS.
+                </p>
+            </div>
+        </div>
+    </section>
 
     <!-- MODAL OVERLAY -->
     <div class="modal-overlay" id="merchantModal">
